@@ -1,0 +1,73 @@
+[
+  {
+    "step": 1,
+    "title": "Personal Information",
+    "description": "Harap Isi Semua Field Yang Tersedia dengan tepat dan sesuai",
+    "fields": [
+      {
+        "type": "textfield",
+        "label": "Masukan Nama Lengkap",
+        "placeholder": "Enter your name",
+        "required": true
+      },
+
+      {
+        "type": "textfield",
+        "label": "Masukan Alamat Tempat Tinggal",
+        "placeholder": "Enter your Alamat ",
+        "required": true
+      },
+      {
+        "type": "textfield",
+        "label": "Masukan Alamat Tempat Tinggal",
+        "placeholder": "Enter your Alamat ",
+        "required": true
+      },
+      {
+        "type": "textfield",
+        "label": "Masukan Umur Sesuai Tanggal Lahir",
+        "placeholder": "Enter your Umur ",
+        "required": true
+      },
+      {
+        "type": "radio",
+        "label": "Gender",
+        "options": [
+          {
+            "label": "Male",
+            "value": "male"
+          },
+          {
+            "label": "Female",
+            "value": "female"
+          },
+          {
+            "label": "Other",
+            "value": "other"
+          }
+        ],
+        "required": true
+      }
+    ]
+  },
+  {
+    "step": 2,
+    "title": "Additional Information",
+    "description": "Please provide additional details",
+    "fields": [
+      {
+        "type": "textarea",
+        "label": "Description",
+        "placeholder": "Enter a description",
+        "required": false
+      },
+      {
+        "type": "autocomplete",
+        "label": "Title",
+        "placeholder": "Enter a title",
+        "options": ["Mr.", "Mrs.", "Ms.", "Dr.", "Prof."],
+        "required": true
+      }
+    ]
+  }
+]
