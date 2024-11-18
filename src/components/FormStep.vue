@@ -63,7 +63,6 @@ const validateFields = () => {
         </div>
       </div>
 
-      <!-- Textarea -->
       <div v-if="field.type === 'textarea'">
         <textarea
           :placeholder="field.placeholder"
@@ -72,7 +71,6 @@ const validateFields = () => {
         ></textarea>
       </div>
 
-      <!-- Autocomplete -->
       <div v-if="field.type === 'autocomplete'">
         <input
           type="text"

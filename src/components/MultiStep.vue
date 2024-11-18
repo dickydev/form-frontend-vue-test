@@ -1,62 +1,57 @@
 <script setup lang="ts">
-import { ref, watch, computed } from "vue";
+import { computed, watch } from "vue";
 import FormStep from "./FormStep.vue";
 import PreviewCard from "../components/card/Preview.vue";
+import { useFormStore } from "../stores/formStore";
+import type { Form } from "../types/form";
 
-import type { Form } from "../types/form.ts";
+const formStore = useFormStore();
 
 const props = defineProps<{
   stepForm: Form;
 }>();
 
-const currentStep = ref(1);
-const formData = ref<Record<string, any>>({});
-const showPreview = ref(false);
-const isCurrentStepValid = ref(false);
+watch(
+  () => props.stepForm,
+  (newSteps) => {
+    formStore.setStepForm(newSteps);
+  },
+  { immediate: true }
+);
 
-const currentFormStep = computed(() => props.stepForm[currentStep.value - 1]);
-const isPrevDisabled = computed(() => currentStep.value === 1);
-const isNextDisabled = computed(() => !isCurrentStepValid.value);
-const isSubmitDisabled = computed(() => !isCurrentStepValid.value);
-
-watch(isCurrentStepValid, (newValue) => {
-  console.log("Step valid:", newValue);
-});
+const currentStep = computed(() => formStore.currentStep);
+const currentFormStep = computed(() => formStore.currentFormStep);
+const stepForm = computed(() => formStore.stepForm);
+const formData = computed(() => formStore.formData);
+const showPreview = computed(() => formStore.showPreview);
+const isPrevDisabled = computed(() => formStore.isPrevDisabled);
+const isNextDisabled = computed(() => formStore.isNextDisabled);
+const isSubmitDisabled = computed(() => formStore.isSubmitDisabled);
 
 const handleValidation = (isValid: boolean) => {
-  isCurrentStepValid.value = isValid;
+  formStore.handleValidation(isValid);
 };
 
 const nextStep = () => {
-  if (!isNextDisabled.value && currentStep.value < props.stepForm.length) {
-    currentStep.value++;
-  }
+  formStore.nextStep();
 };
 
 const prevStep = () => {
-  if (!isPrevDisabled.value) {
-    currentStep.value--;
-  }
+  formStore.prevStep();
 };
 
 const handleSubmit = () => {
-  if (!isSubmitDisabled.value) {
-    console.log("Form Data:", formData.value);
-    showPreview.value = true;
-  }
+  formStore.handleSubmit();
 };
 
 const handleClosePreview = () => {
-  showPreview.value = false;
-  formData.value = {};
-  currentStep.value = 1;
+  formStore.handleClosePreview();
 };
 
 const stepClass = (stepNumber: number) => {
-  if (currentStep.value === stepNumber) {
-    return "border-blue-600 text-blue-600";
-  }
-  return "border-gray-300 text-gray-600";
+  return stepNumber === currentStep.value
+    ? "bg-blue-500 text-white"
+    : "bg-gray-200 text-gray-600";
 };
 </script>
 
@@ -116,7 +111,7 @@ const stepClass = (stepNumber: number) => {
         :key="currentStep"
         :fields="currentFormStep.fields"
         :modelValue="formData.value"
-        @update:modelValue="(newData) => (formData.value = newData)"
+        @update:modelValue="(newData: any) => (formData.value = newData)"
         @validation="handleValidation"
       />
 
