@@ -3,13 +3,14 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build": "vue-tsc -b && vite build",
+    "build": "node api.js && vue-tsc -b && vite build",
     "deploy": "npm run build && gh-pages -d dist",
-    "dev": "vite",
+    "dev": "node api.js && vite",
     "gh-pages": "vue-cli-service gh-pages",
     "preview": "vite preview"
   },
   "dependencies": {
+    "pinia": "^2.2.6",
     "vue": "^3.5.12"
   },
   "devDependencies": {
